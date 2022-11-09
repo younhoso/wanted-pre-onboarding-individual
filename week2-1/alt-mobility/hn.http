@@ -1,0 +1,2 @@
+### data get
+GET https://preonboarding.platdev.net/api/cars HTTP/1.1
