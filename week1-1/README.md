@@ -1,4 +1,4 @@
-# 원티드 프리온보딩 프론트엔드 - 선발 과제
+# 원티드 프리온보딩 코스 1-1 - 선발 과제
 ![프리온보딩 프론트엔드 코스](https://user-images.githubusercontent.com/30254570/196867063-5f95e73c-c05a-435b-9908-55770322e9c0.png)
 
 ## [배포링크](https://younhoso.github.io/wanted-pre-onboarding-frontend/)
