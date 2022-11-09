@@ -1,23 +1,53 @@
 import { useState } from 'react';
 import styled, { css } from 'styled-components';
+import { useSickcd } from '../context/SickcdContext';
 import Button from './Button';
 import SearchBox from './SearchBox';
 
+const initState = {
+  open: false,
+  text: '',
+};
+
+interface initState {
+  open: boolean;
+  text: string;
+}
+
 function Input() {
-  const [open, setOpen] = useState(false);
+  const [values, setValues] = useState<initState>(initState);
+  const { getSickCd } = useSickcd();
 
   const handleFocus = () => {
-    setOpen(true);
+    setValues((prev) => ({
+      ...prev,
+      open: true,
+    }));
   };
   const handleBlur = () => {
-    setOpen(false);
+    setValues((prev) => ({
+      ...prev,
+      open: false,
+    }));
+  };
+
+  const handleText = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.currentTarget;
+    getSickCd(value);
   };
 
   return (
     <InputWrap>
-      <Inputed type="search" placeholder="질환명을 입력해 주세요" onFocus={handleFocus} onBlur={handleBlur} />
+      <Inputed
+        name="search"
+        type="search"
+        placeholder="질환명을 입력해 주세요"
+        onChange={handleText}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+      />
       <Button iconClass="ic-search" customStyle={BtnStyle} />
-      {open && <SearchBox />}
+      {values.open && <SearchBox />}
     </InputWrap>
   );
 }

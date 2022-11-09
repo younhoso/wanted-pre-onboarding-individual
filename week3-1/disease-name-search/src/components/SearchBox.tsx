@@ -13,5 +13,6 @@ const SearchBoxWrap = styled.div`
   border-radius: 10px;
   background-color: #fff;
   text-align: left;
+  position: absolute;
 `;
 export default SearchBox;
