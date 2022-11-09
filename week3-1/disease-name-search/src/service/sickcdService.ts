@@ -2,7 +2,7 @@ import HttpAxios from '../http/httpAxios';
 import { Sick } from '../types';
 
 interface sickcdServiceInterface {
-  getSickcd(paramse: string): Promise<Sick[]>;
+  getSick(paramse?: string): Promise<Sick[]>;
 }
 
 class sickcdDataService implements sickcdServiceInterface {
@@ -12,7 +12,7 @@ class sickcdDataService implements sickcdServiceInterface {
     this.httpClient = httpClient;
   }
 
-  async getSickcd(paramse: string): Promise<Sick[]> {
+  async getSick(paramse?: string): Promise<Sick[]> {
     const { data } = await this.httpClient.instance.get(`/sick?q=${paramse}`);
     return [...data];
   }

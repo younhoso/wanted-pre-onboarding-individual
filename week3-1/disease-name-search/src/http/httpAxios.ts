@@ -29,17 +29,6 @@ class HttpAxios extends HttpClientInterface {
     });
   }
 
-  private initiRequestInterceptor = () => {
-    this.instance.interceptors.request.use((config) => config);
-  };
-
-  private initiResponseInterceptor = () => {
-    this.instance.interceptors.response.use(
-      (config) => config,
-      (error) => error.response
-    );
-  };
-
   protected handleError = (error: unknown) => Promise.reject(error);
 }
 

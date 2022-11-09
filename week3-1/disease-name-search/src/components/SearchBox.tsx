@@ -1,18 +1,51 @@
-import styled from 'styled-components';
+/* eslint-disable react/self-closing-comp */
+/* eslint-disable react/no-array-index-key */
+import styled, { css } from 'styled-components';
+import { Sick } from '../types';
+import Button from './Button';
 
-function SearchBox() {
+interface valuesProps {
+  keyword: string
+  sick: Sick
+}
+
+function SearchBox({keyword, sick}:valuesProps) {
+  const name = sick.sickNm
+  const matchText = name?.split(new RegExp(`(${keyword})`, "gi"));
+
   return (
+    <>
     <SearchBoxWrap>
-      <div>최근 검색어</div>
+    <Button iconClass="ic-search" customStyle={BtnStyle}/>
+      { 
+        // eslint-disable-next-line arrow-body-style
+        matchText.map((splitedText, index) => {
+          return splitedText === keyword && (
+            <Text key={index}>
+              {name}
+            </Text>
+          )
+        })
+      }
+      
     </SearchBoxWrap>
+    </>
   );
 }
 
-const SearchBoxWrap = styled.div`
-  width: 100%;
-  border-radius: 10px;
-  background-color: #fff;
+const BtnStyle = css`
+  width: 20px;
+  height: 20px;
   text-align: left;
-  position: absolute;
+  background-color: #007be9;
+  border-radius: 50%;
+`
+
+const SearchBoxWrap = styled.div`
+  padding-bottom: 14px;
 `;
+
+const Text = styled.div`
+  font-weight: 600;
+`
 export default SearchBox;

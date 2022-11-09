@@ -2,21 +2,21 @@ import { useState } from 'react';
 import styled, { css } from 'styled-components';
 import { useSickcd } from '../context/SickcdContext';
 import Button from './Button';
-import SearchBox from './SearchBox';
+import SearchBoxList from './SearchBoxList';
 
 const initState = {
   open: false,
-  text: '',
+  keyword: '',
 };
 
 interface initState {
   open: boolean;
-  text: string;
+  keyword: string;
 }
 
 function Input() {
   const [values, setValues] = useState<initState>(initState);
-  const { getSickCd } = useSickcd();
+  const { getSick } = useSickcd();
 
   const handleFocus = () => {
     setValues((prev) => ({
@@ -33,22 +33,29 @@ function Input() {
 
   const handleText = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.currentTarget;
-    getSickCd(value);
+    getSick(value);
+    setValues((prev) => ({
+      ...prev,
+      keyword: value
+    }))
   };
 
   return (
-    <InputWrap>
-      <Inputed
-        name="search"
-        type="search"
-        placeholder="질환명을 입력해 주세요"
-        onChange={handleText}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-      />
-      <Button iconClass="ic-search" customStyle={BtnStyle} />
-      {values.open && <SearchBox />}
-    </InputWrap>
+    <>
+      <InputWrap>
+        <Inputed
+          name="search"
+          type="search"
+          placeholder="질환명을 입력해 주세요"
+          onChange={handleText}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+        />
+        <Button iconClass="ic-search" customStyle={BtnStyle} />
+      </InputWrap>
+      <SearchBoxList keyword={values.keyword}/>
+      {/* {values.open && <SearchBox />} */}
+    </>
   );
 }
 

@@ -8,32 +8,30 @@ type sickcdProviderProps = {
 };
 
 type State = {
-  sickcd: Sick[];
-  getSickCd: (paramse: string) => void;
+  sick: Sick[];
+  getSick: (paramse: string) => void;
 };
 
 const SickcdContext = createContext<State>({
-  sickcd: [],
-  getSickCd: () => {
-    console.log();
-  },
+  sick: [],
+  getSick: () => null,
 });
 export const useSickcd = () => useContext(SickcdContext);
 
 export function SickcdProvider({ children, sickcdService }: sickcdProviderProps) {
-  const [sickcd, setSickcd] = useState<Sick[]>([]);
+  const [sick, setSickcd] = useState<Sick[]>([]);
 
-  const getSickCd = async (paramse = '') => {
-    console.log(paramse);
-    const data = await sickcdService.getSickcd(paramse);
+  const getSick = async (paramse = '') => {
+    if(paramse === '') return false;
+    const data = await sickcdService.getSick(paramse);
     setSickcd(data);
   };
 
   useEffect(() => {
-    getSickCd();
+    getSick();
   }, []);
 
-  const value = useMemo(() => ({ sickcd, getSickCd }), [sickcd]);
+  const value = useMemo(() => ({ sick, getSick }), [sick]);
 
   return <SickcdContext.Provider value={value}>{children}</SickcdContext.Provider>;
 }
