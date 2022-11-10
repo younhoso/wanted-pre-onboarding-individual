@@ -22,7 +22,7 @@ function SearchBox({ keyword, sick }: valuesProps) {
   };
 
   return (
-    <SearchBoxWrap href="#" onFocus={focusText}>
+    <SearchBoxWrap href="#0" onFocus={focusText}>
       <Button customStyle={BtnStyle}>
         <i className="ic-search" />
       </Button>
