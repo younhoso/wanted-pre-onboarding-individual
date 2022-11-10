@@ -1,38 +1,17 @@
 import styled, { FlattenInterpolation, ThemeProps } from 'styled-components';
 
 type ButtonProps = {
-  iconClass?: string;
   customStyle?: FlattenInterpolation<ThemeProps<unknown>>;
-  children?: string;
+  children?: JSX.Element;
 };
 
-function Button({ iconClass, customStyle, children }: ButtonProps) {
-  return (
-    <BtnWrap>
-      <i className={iconClass} />
-      <ButtonBx customStyle={customStyle}>{children}</ButtonBx>
-    </BtnWrap>
-  );
+function Button({ customStyle, children }: ButtonProps) {
+  return <BtnWrap customStyle={customStyle}>{children}</BtnWrap>;
 }
 
-const BtnWrap = styled.div`
-  position: absolute;
-  top: 50%;
-  right: 30px;
-  transform: translate(0%, -10%);
-  font-size: 26px;
+const BtnWrap = styled.div<ButtonProps>`
   cursor: pointer;
-  i {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -62%);
-    color: #fff;
-  }
+  ${(props) => props.customStyle}
 `;
 
-const ButtonBx = styled.div<ButtonProps>`
-  ${(props) => props.customStyle}
-  display: inline-block;
-`;
 export default Button;

@@ -16,13 +16,14 @@ interface initState {
 
 function Input() {
   const [values, setValues] = useState<initState>(initState);
-  const { getSick } = useSickcd();
+  const { focusTxt, getSick, valueTxt, focusValueTxt } = useSickcd();
 
-  const handleFocus = () => {
+  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
     setValues((prev) => ({
       ...prev,
       open: true,
     }));
+    focusValueTxt(false);
   };
   const handleBlur = () => {
     setValues((prev) => ({
@@ -36,8 +37,8 @@ function Input() {
     getSick(value);
     setValues((prev) => ({
       ...prev,
-      keyword: value
-    }))
+      keyword: value,
+    }));
   };
 
   return (
@@ -50,11 +51,14 @@ function Input() {
           onChange={handleText}
           onFocus={handleFocus}
           onBlur={handleBlur}
+          value={valueTxt ? focusTxt : values.keyword}
         />
-        <Button iconClass="ic-search" customStyle={BtnStyle} />
+        <Button customStyle={BtnStyle}>
+          <i className="ic-search" />
+        </Button>
       </InputWrap>
-      <SearchBoxList keyword={values.keyword}/>
-      {/* {values.open && <SearchBox />} */}
+      <SearchBoxList keyword={values.keyword} />
+      {/* {values.open && <SearchBoxList keyword={values.keyword}/>} */}
     </>
   );
 }
@@ -68,10 +72,21 @@ const BtnStyle = css`
   width: 48px;
   height: 48px;
   line-height: 48px;
-  padding-left: 30px;
   text-align: left;
   background-color: #007be9;
   border-radius: 50%;
+  font-size: 24px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(-40%, 110%);
+  i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    color: #fff;
+    transform: translate(-50%, -50%);
+  }
 `;
 
 const Inputed = styled.input`

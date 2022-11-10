@@ -1,25 +1,14 @@
 /* eslint-disable class-methods-use-this */
 import axios, { AxiosInstance } from 'axios';
 
-abstract class HttpClientInterface {
-  public instance: AxiosInstance;
-
-  constructor(baseURL: string | undefined, options?: { [key: string]: unknown }) {
-    this.instance = axios.create({
-      baseURL,
-      headers: {
-        'Content-Type': 'application/json',
-        ...options,
-      },
-    });
-  }
+interface HttpClientInterface {
+  handleError(error: unknown): Promise<string>;
 }
 
-class HttpAxios extends HttpClientInterface {
+class HttpAxios implements HttpClientInterface {
   public instance: AxiosInstance;
 
   constructor(baseURL: string | undefined, options = {}) {
-    super(baseURL, options);
     this.instance = axios.create({
       baseURL,
       headers: {
@@ -29,7 +18,9 @@ class HttpAxios extends HttpClientInterface {
     });
   }
 
-  protected handleError = (error: unknown) => Promise.reject(error);
+  handleError(error: unknown): Promise<string> {
+    return Promise.reject(error);
+  }
 }
 
 export default HttpAxios;
