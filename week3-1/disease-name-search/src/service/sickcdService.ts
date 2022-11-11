@@ -1,4 +1,3 @@
-/* eslint-disable class-methods-use-this */
 import dayjs from 'dayjs';
 import HttpAxios from '../http/httpAxios';
 import { Sick } from '../types';
