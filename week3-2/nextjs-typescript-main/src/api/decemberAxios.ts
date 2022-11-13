@@ -4,14 +4,19 @@ type loginData = {
 	[key: string]: string,
 }
 
-export const api = axios.create({
-	baseURL: 'http://localhost:4000'
-});
+const SERVER = {
+  baseURL: 'http://localhost:4000',
+  headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+  validityState: (status: number) => {
+    return status >= 200 && status < 300;
+  },
+};
+
+export const api = axios.create(SERVER);
 
 // 토큰 실어보내는 request interceptor
 api.interceptors.request.use((config) => {
 	const headers = config.headers as RawAxiosRequestHeaders;
-	headers['Content-type'] = 'application/json; charset=UTF-8';
 	if(localStorage.getItem('accessToken')){
 		headers['Authorization'] = `Bearer ${localStorage.getItem('accessToken')}`;
 	}else{
