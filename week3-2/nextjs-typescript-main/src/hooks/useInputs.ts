@@ -15,7 +15,7 @@ function useInput(initalValue: initalValue) {
 		}))
 	},[])
 	
-	const reset = useCallback(() => setValue(initalValue), [initalValue.initialState])
+	const reset = useCallback(() => setValue(initalValue), [initalValue])
 	return {value, onChange, reset}
 }
 

@@ -19,8 +19,6 @@ api.interceptors.request.use((config) => {
 	const headers = config.headers as RawAxiosRequestHeaders;
 	if(localStorage.getItem('accessToken')){
 		headers['Authorization'] = `Bearer ${localStorage.getItem('accessToken')}`;
-	}else{
-		if(window.location.pathname !== '/login') window.location.href= "/login";
 	}
 	return config;
 }, (err) => {
@@ -29,9 +27,13 @@ api.interceptors.request.use((config) => {
 
 api.interceptors.response.use(
 	(config) => config,
-  (error) => error.response
+  (err) => {
+		if(err.response.status >= 400 && err.response.status < 500){
+			return Promise.reject(err);
+		}
+	}
 );
 
 export const apis = {
-	login: (data: loginData) => api.post('/users/signup', data)
+	loginPost: (data: loginData) => api.post('/users/signup', data)
 }

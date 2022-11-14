@@ -1,3 +1,5 @@
+import { useRouter } from 'next/router'
+import { useMutation } from '@tanstack/react-query';
 import { apis } from "src/api/decemberAxios";
 import useInputs from "../hooks/useInputs";
 
@@ -6,17 +8,25 @@ const INITIAL_VALUES = {
   password: "",
 };
 
-function Home() {
+function Login() {
   const {value, onChange} = useInputs(INITIAL_VALUES)
+  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     onChange(name, value);
-  }
+  };
+  const { mutate: create } = useMutation(apis.loginPost,{
+    onSuccess: (data) => {
+      localStorage.setItem('token', data.data.accessToken);
+      router.push('/')
+    },
+    onError:() => {}
+  });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    apis.login(value)
+    create(value)
   }
 
   return (
@@ -77,4 +87,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Login;
