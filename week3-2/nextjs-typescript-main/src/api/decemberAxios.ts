@@ -1,8 +1,8 @@
-import axios, { RawAxiosRequestHeaders } from "axios";
+import axios, { RawAxiosRequestHeaders } from 'axios';
 
 type loginData = {
-	[key: string]: string,
-}
+  [key: string]: string;
+};
 
 const SERVER = {
   baseURL: 'http://localhost:4000',
@@ -15,25 +15,30 @@ const SERVER = {
 export const api = axios.create(SERVER);
 
 // 토큰 실어보내는 request interceptor
-api.interceptors.request.use((config) => {
-	const headers = config.headers as RawAxiosRequestHeaders;
-	if(localStorage.getItem('accessToken')){
-		headers['Authorization'] = `Bearer ${localStorage.getItem('accessToken')}`;
-	}
-	return config;
-}, (err) => {
-	return Promise.reject(err);
-});
+api.interceptors.request.use(
+  (config) => {
+    const headers = config.headers as RawAxiosRequestHeaders;
+    if (localStorage.getItem('token')) {
+      headers['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
+    }
+    return config;
+  },
+  (err) => {
+    return Promise.reject(err);
+  }
+);
 
 api.interceptors.response.use(
-	(config) => config,
+  (config) => config,
   (err) => {
-		if(err.response.status >= 400 && err.response.status < 500){
-			return Promise.reject(err);
-		}
-	}
+    if (err.response.status >= 400 && err.response.status < 500) {
+      return Promise.reject(err);
+    }
+  }
 );
 
 export const apis = {
-	loginPost: (data: loginData) => api.post('/users/signup', data)
-}
+  signupPost: (data: loginData) => api.post('/users/signup', data),
+  loginPost: (data: loginData) => api.post('/login', data),
+  accountsGet: () => api.get('/accounts'),
+};

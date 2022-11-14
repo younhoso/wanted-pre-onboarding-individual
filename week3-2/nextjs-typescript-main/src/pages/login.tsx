@@ -1,33 +1,34 @@
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 import { useMutation } from '@tanstack/react-query';
-import { apis } from "src/api/decemberAxios";
-import useInputs from "../hooks/useInputs";
+import { apis } from 'src/api/decemberAxios';
+import useInputs from '../hooks/useInputs';
 
 const INITIAL_VALUES = {
-  email: "",
-  password: "",
+  email: '',
+  password: '',
 };
 
 function Login() {
-  const {value, onChange} = useInputs(INITIAL_VALUES)
+  const { value, onChange } = useInputs(INITIAL_VALUES);
   const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     onChange(name, value);
   };
-  const { mutate: create } = useMutation(apis.loginPost,{
+  const { mutate: create } = useMutation(apis.loginPost, {
     onSuccess: (data) => {
+      console.log(data);
       localStorage.setItem('token', data.data.accessToken);
-      router.push('/')
+      router.push('/');
     },
-    onError:() => {}
+    onError: () => {},
   });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    create(value)
-  }
+    create(value);
+  };
 
   return (
     <>
@@ -75,8 +76,7 @@ function Login() {
             <div>
               <button
                 type="submit"
-                className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-              >
+                className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                 Sign in
               </button>
             </div>
