@@ -1,22 +1,21 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import List from 'src/componets/List';
 import NavBar from 'src/componets/NavBar';
 import Header from 'src/componets/Header';
+import Footer from 'src/componets/Footer';
 
-function Home() {
+function Layout() {
   return (
-    <>
-      <HomeWraper>
-        <NavBar />
-        <BodyWraper>
-          <Header />
-          <List />
-        </BodyWraper>
-      </HomeWraper>
-    </>
+    <HomeWraper>
+      <NavBar />
+      <BodyWraper>
+        <Header />
+        <List />
+        <Footer />
+      </BodyWraper>
+    </HomeWraper>
   );
 }
-
 const HomeWraper = styled.div`
   display: flex;
 `;
@@ -27,4 +26,4 @@ const BodyWraper = styled.div`
   padding-left: 256px;
 `;
 
-export default Home;
+export default Layout;

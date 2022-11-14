@@ -20,7 +20,7 @@ function Login() {
     onSuccess: (data) => {
       console.log(data);
       localStorage.setItem('token', data.data.accessToken);
-      router.push('/');
+      router.push('/accountlist');
     },
     onError: () => {},
   });

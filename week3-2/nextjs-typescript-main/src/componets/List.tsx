@@ -1,9 +1,7 @@
-import { dehydrate, QueryClient, useQuery } from '@tanstack/react-query';
-import { GetServerSideProps } from 'next';
-import { type } from 'os';
-import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { apis } from 'src/api/decemberAxios';
 import styled from 'styled-components';
+import Table from './Table';
 
 type accounts = {
   id: number;
@@ -20,18 +18,8 @@ type accounts = {
   updated_at: string;
 };
 
-type txt = {
-  is: boolean;
-  msg: string;
-};
-const initAccounts = [
-  { is: false, msg: 'bad' },
-  { is: true, msg: 'good' },
-];
-
 function List() {
-  const [isActive, setIsActive] = useState<txt[]>(initAccounts);
-  const { data } = useQuery(['acc'], apis.accountsGet);
+  const { data } = useQuery(['account'], apis.accountsGet);
 
   return (
     <ListWraper className="overflow-x-auto relative">
@@ -67,59 +55,23 @@ function List() {
             </th>
           </tr>
         </thead>
-        <tbody>
-          {data?.data.map((el: accounts) => (
-            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-              <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                {el.name}
-              </th>
-              <td className="py-4 px-6">Sliver</td>
-              <td className="py-4 px-6">{el.number}</td>
-              <td className="py-4 px-6">계좌상태</td>
-              <td className="py-4 px-6">{el.name}</td>
-              <td className="py-4 px-6">{el.assets}</td>
-              <td className="py-4 px-6">{el.payments}</td>
-              <td className="py-4 px-6">{}</td>
-              <td className="py-4 px-6">{el.created_at}</td>
-            </tr>
-          ))}
-          {/* <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                      <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                          Apple MacBook Pro 17"
-                      </th>
-                      <td className="py-4 px-6">
-                          Sliver
-                      </td>
-                      <td className="py-4 px-6">
-                          Laptop
-                      </td>
-                      <td className="py-4 px-6">
-                          $2999
-                      </td>
-                  </tr>
-                  <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                      <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                          Microsoft Surface Pro
-                      </th>
-                      <td className="py-4 px-6">
-                          White
-                      </td>
-                      <td className="py-4 px-6">
-                          Laptop PC
-                      </td>
-                      <td className="py-4 px-6">
-                          $1999
-                      </td>
-                  </tr> */}
-          <tr className="bg-white dark:bg-gray-800">
-            <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-              Magic Mouse 2
-            </th>
-            <td className="py-4 px-6">Black</td>
-            <td className="py-4 px-6">Accessories</td>
-            <td className="py-4 px-6">$99</td>
-          </tr>
-        </tbody>
+        {data?.data.map((el: accounts, indx: number) => (
+          <Table
+            key={indx}
+            id={el.id}
+            user_id={el.user_id}
+            uuid={el.uuid}
+            broker_id={el.broker_id}
+            status={el.status}
+            number={el.number}
+            name={el.name}
+            assets={el.assets}
+            payments={el.payments}
+            is_active={el.is_active}
+            created_at={el.created_at}
+            updated_at={el.updated_at}
+          />
+        ))}
       </table>
     </ListWraper>
   );
