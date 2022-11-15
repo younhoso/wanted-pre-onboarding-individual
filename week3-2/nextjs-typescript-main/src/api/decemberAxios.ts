@@ -44,4 +44,5 @@ export const apis = {
   loginPost: (data: loginData) => api.post('/login', data),
   accountsGet: () => api.get('/accounts'),
   usersGet: () => api.get('/users'),
+  userSettingGet: () => api.get('/userSetting'),
 };

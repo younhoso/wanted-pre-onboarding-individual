@@ -1,10 +1,9 @@
-import { useQuery } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
-import { apis } from 'src/api/decemberAxios';
 import styled from 'styled-components';
+import { useQuery } from '@tanstack/react-query';
+import { apis } from 'src/api/decemberAxios';
 import Table from './Table';
 
-type accounts = {
+type accountsType = {
   id: number;
   user_id: number;
   uuid: string;
@@ -19,21 +18,23 @@ type accounts = {
   updated_at: string;
 };
 
+const accountStatus = [
+  {statusNum: 9999, status: "관리자확인필요"},
+  {statusNum: 1, status: "입금대기"},
+  {statusNum: 2, status: "운용중"},
+  {statusNum: 3, status: "투자중지"},
+  {statusNum: 4, status: "해지"}
+]
+
 function AccountList() {
-  const { isLoading: accLoading, data: accounts } = useQuery(['account'], apis.accountsGet, {
+  const { data: accounts } = useQuery(['account'], apis.accountsGet, {
     refetchInterval: 5000,
   });
-  const [loading, setloading] = useState(accLoading);
 
-  useEffect(() => {
-    setloading(!accLoading);
-  }, []);
-
-  if (loading) return <div>Loading...</div>;
   return (
     <ListWraper className="overflow-x-auto relative">
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <thead className="text-xs text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-400">
           <tr>
             <th scope="col" className="py-3 px-6">
               고객명
@@ -64,23 +65,26 @@ function AccountList() {
             </th>
           </tr>
         </thead>
-        {accounts?.data?.map((el: accounts, indx: number) => (
-          <Table
-            key={indx}
-            id={el.id}
-            user_id={el.user_id}
-            uuid={el.uuid}
-            broker_id={el.broker_id}
-            status={el.status}
-            number={el.number}
-            name={el.name}
-            assets={el.assets}
-            payments={el.payments}
-            is_active={el.is_active}
-            created_at={el.created_at}
-            updated_at={el.updated_at}
-          />
-        ))}
+        {
+          accounts?.data?.map((el: accountsType, indx: number) => (
+            <Table
+              key={indx}
+              id={el.id}
+              user_id={el.user_id}
+              uuid={el.uuid}
+              broker_id={el.broker_id}
+              status={el.status}
+              number={el.number}
+              name={el.name}
+              assets={el.assets}
+              payments={el.payments}
+              is_active={el.is_active}
+              created_at={el.created_at}
+              updated_at={el.updated_at}
+              accountStat={accountStatus}
+            />
+          ))
+        }
       </table>
     </ListWraper>
   );
@@ -88,12 +92,11 @@ function AccountList() {
 
 const ListWraper = styled.div`
   width: 100%;
+  min-height: 790px;
   padding: 30px;
-`;
-
-const Loader = styled.div`
-  text-align: center;
-  display: block;
+  thead {
+    background-color: #e6e6e6;
+  }
 `;
 
 export default AccountList;
