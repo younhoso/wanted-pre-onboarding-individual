@@ -18,9 +18,8 @@ function Login() {
   };
   const { mutate: create } = useMutation(apis.loginPost, {
     onSuccess: (data) => {
-      console.log(data);
       localStorage.setItem('token', data.data.accessToken);
-      router.push('/accountlist');
+      router.push('/accountlists');
     },
     onError: () => {},
   });

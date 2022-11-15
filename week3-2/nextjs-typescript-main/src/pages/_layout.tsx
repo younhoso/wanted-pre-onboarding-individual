@@ -1,16 +1,20 @@
 import styled from 'styled-components';
-import List from 'src/componets/List';
+import AccountList from 'src/componets/AccList';
+import UserList from 'src/componets/UserList';
 import NavBar from 'src/componets/NavBar';
 import Header from 'src/componets/Header';
 import Footer from 'src/componets/Footer';
+import { useRouter } from 'next/router';
 
 function Layout() {
+  const router = useRouter();
   return (
     <HomeWraper>
       <NavBar />
       <BodyWraper>
         <Header />
-        <List />
+        {router.pathname === '/accountlists' && <AccountList />}
+        {router.pathname === '/userlists' && <UserList />}
         <Footer />
       </BodyWraper>
     </HomeWraper>

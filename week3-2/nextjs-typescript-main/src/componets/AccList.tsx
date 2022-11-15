@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 import { apis } from 'src/api/decemberAxios';
 import styled from 'styled-components';
 import Table from './Table';
@@ -18,9 +19,17 @@ type accounts = {
   updated_at: string;
 };
 
-function List() {
-  const { data } = useQuery(['account'], apis.accountsGet);
+function AccountList() {
+  const { isLoading: accLoading, data: accounts } = useQuery(['account'], apis.accountsGet, {
+    refetchInterval: 5000,
+  });
+  const [loading, setloading] = useState(accLoading);
 
+  useEffect(() => {
+    setloading(!accLoading);
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
   return (
     <ListWraper className="overflow-x-auto relative">
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -55,7 +64,7 @@ function List() {
             </th>
           </tr>
         </thead>
-        {data?.data.map((el: accounts, indx: number) => (
+        {accounts?.data?.map((el: accounts, indx: number) => (
           <Table
             key={indx}
             id={el.id}
@@ -82,4 +91,9 @@ const ListWraper = styled.div`
   padding: 30px;
 `;
 
-export default List;
+const Loader = styled.div`
+  text-align: center;
+  display: block;
+`;
+
+export default AccountList;

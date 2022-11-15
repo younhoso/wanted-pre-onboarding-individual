@@ -20,6 +20,8 @@ api.interceptors.request.use(
     const headers = config.headers as RawAxiosRequestHeaders;
     if (localStorage.getItem('token')) {
       headers['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
+    } else {
+      if (window.location.pathname !== '/login') window.location.href = '/login';
     }
     return config;
   },
@@ -41,4 +43,5 @@ export const apis = {
   signupPost: (data: loginData) => api.post('/users/signup', data),
   loginPost: (data: loginData) => api.post('/login', data),
   accountsGet: () => api.get('/accounts'),
+  usersGet: () => api.get('/users'),
 };
