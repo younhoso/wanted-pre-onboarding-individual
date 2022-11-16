@@ -1,45 +1,18 @@
+import ReactPaginate from 'react-paginate';
 import { useQuery } from '@tanstack/react-query';
+import usePaginate, { initalValu } from '@hooks/usePaginate';
 import { apis } from 'src/api/decemberAxios';
 import styled from 'styled-components';
-import Table from './Table';
+import UserTable from './UserTable';
+import { UsersType } from 'src/types';
 
-type userType = {
-  id: number,
-  uuid: string,
-  photo: string,
-  name: string,
-  email: string,
-  age: number,
-  gender_origin: number,
-  birth_date: string,
-  phone_number: string,
-  address: string,
-  detail_address: string,
-  last_login: string,
-  created_at: string,
-  updated_at: string
-};
-type userSettingType = {
-  id: number,
-  uuid: string,
-  allow_marketing_push: boolean,
-  allow_invest_push: boolean,
-  is_active: boolean,
-  is_staff: boolean,
-  created_at: string,
-  updated_at: string
-}
-
-function UserList() {
-  const { data: users } = useQuery(['users'], apis.usersGet);
+function UserList({ PAGE_SIZE }: initalValu) {
+  const { data: users } = useQuery(['users'], async () => await apis.usersGet());
   const { data: userSetting } = useQuery(['userSetting'], apis.userSettingGet);
-  const newUserSetting = userSetting?.data.reduce((el : userSettingType, idx: number) => {
-   
-  },[]);
-  console.log(newUserSetting)
+  const { currentItems, pageCount, handlePageClick } = usePaginate<UsersType>({ PAGE_SIZE }, users?.data);
 
-  return(
-      <UserWraper className="overflow-x-auto relative">
+  return (
+    <UserWraper className="overflow-x-auto relative">
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
@@ -75,29 +48,38 @@ function UserList() {
             </th>
           </tr>
         </thead>
-        {
-          users?.data?.map((el: userType, indx: number) => (
-            <Table
-              key={indx}
-              id={el.id}
-              photo={el.photo}
-              name={el.name}
-              email={el.email}
-              age={el.age}
-              gender_origin={el.gender_origin}
-              birth_date={el.birth_date}
-              phone_number={el.phone_number}
-              address={el.address}
-              detail_address={el.detail_address}
-              last_login={el.last_login}
-              created_at={el.created_at}
-              updated_at={el.updated_at}
-            />
-          ))
-        }
+        {currentItems?.map((el: UsersType) => (
+          <UserTable
+            key={el.id}
+            id={el.id}
+            name={el.name}
+            uuid={el.uuid}
+            photo={el.photo}
+            email={el.email}
+            age={el.age}
+            gender_origin={el.gender_origin}
+            birth_date={el.birth_date}
+            phone_number={el.phone_number}
+            address={el.address}
+            detail_address={el.detail_address}
+            last_login={el.last_login}
+            created_at={el.created_at}
+            updated_at={el.updated_at}
+          />
+        ))}
       </table>
+      <BtnWrap>
+        <ReactPaginate
+          breakLabel="..."
+          previousLabel="< previous"
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={4}
+          pageCount={pageCount}
+          nextLabel="next >"
+        />
+      </BtnWrap>
     </UserWraper>
-  )
+  );
 }
 
 const UserWraper = styled.div`
@@ -106,6 +88,25 @@ const UserWraper = styled.div`
   border-bottom: 1px solid #e6e6e6;
   thead {
     background-color: #e6e6e6;
+  }
+`;
+
+const BtnWrap = styled.div`
+  height: 100px;
+  ul {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  ul li {
+    padding: 0 20px;
+  }
+  ul li.selected {
+    color: #fff;
+    border: 1px solid #4e59c8;
+    background-color: #6875f5;
+    border-radius: 28px;
   }
 `;
 

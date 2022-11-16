@@ -4,7 +4,7 @@ type initalValue = {
   [key: string]: string;
 };
 
-function useInput(initalValue: initalValue) {
+function useInputs(initalValue: initalValue) {
   const [value, setValue] = useState(initalValue);
 
   const onChange = useCallback((name: string, value: string): void => {
@@ -18,4 +18,4 @@ function useInput(initalValue: initalValue) {
   return { value, onChange, reset };
 }
 
-export default useInput;
+export default useInputs;

@@ -8,22 +8,22 @@ import { useRouter } from 'next/router';
 function Layout() {
   const router = useRouter();
 
-  const AccountList = dynamic(
-    () => import('src/componets/AccList'),
-    { loading: () => <Loader>Loading ...</Loader>, ssr: false }
-  )
+  const AccountList = dynamic(() => import('src/componets/AccList'), {
+    loading: () => <Loader>Loading ...</Loader>,
+    ssr: false,
+  });
 
-  const UserList = dynamic(
-    () => import('src/componets/UserList'),
-    { loading: () => <Loader>Loading ...</Loader>, ssr: false }
-  )
+  const UserList = dynamic(() => import('src/componets/UserList'), {
+    loading: () => <Loader>Loading ...</Loader>,
+    ssr: false,
+  });
   return (
     <HomeWraper>
       <NavBar />
       <BodyWraper>
         <Header />
-        {router.pathname === '/accountlists' && <AccountList />}
-        {router.pathname === '/userlists' && <UserList />}
+        {router.pathname === '/accountlists' && <AccountList PAGE_SIZE={10} />}
+        {router.pathname === '/userlists' && <UserList PAGE_SIZE={10} />}
         <Footer />
       </BodyWraper>
     </HomeWraper>

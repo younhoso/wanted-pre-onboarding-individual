@@ -1,35 +1,14 @@
-import styled from 'styled-components';
+import ReactPaginate from 'react-paginate';
 import { useQuery } from '@tanstack/react-query';
+import usePaginate, { initalValu } from '@hooks/usePaginate';
+import styled from 'styled-components';
 import { apis } from 'src/api/decemberAxios';
-import Table from './Table';
+import AccTable from './AccTable';
+import { AccType } from 'src/types';
 
-type accountsType = {
-  id: number;
-  user_id: number;
-  uuid: string;
-  broker_id: string;
-  status: number;
-  number: string;
-  name: string;
-  assets: string;
-  payments: string;
-  is_active: boolean;
-  created_at: string;
-  updated_at: string;
-};
-
-const accountStatus = [
-  {statusNum: 9999, status: "관리자확인필요"},
-  {statusNum: 1, status: "입금대기"},
-  {statusNum: 2, status: "운용중"},
-  {statusNum: 3, status: "투자중지"},
-  {statusNum: 4, status: "해지"}
-]
-
-function AccountList() {
-  const { data: accounts } = useQuery(['account'], apis.accountsGet, {
-    refetchInterval: 5000,
-  });
+function AccountList({ PAGE_SIZE }: initalValu) {
+  const { data: accountsCurrent } = useQuery(['accountCurrent'], async () => await apis.accountsGet());
+  const { currentItems, pageCount, handlePageClick } = usePaginate<AccType>({ PAGE_SIZE }, accountsCurrent?.data);
 
   return (
     <ListWraper className="overflow-x-auto relative">
@@ -65,27 +44,34 @@ function AccountList() {
             </th>
           </tr>
         </thead>
-        {
-          accounts?.data?.map((el: accountsType, indx: number) => (
-            <Table
-              key={indx}
-              id={el.id}
-              user_id={el.user_id}
-              uuid={el.uuid}
-              broker_id={el.broker_id}
-              status={el.status}
-              number={el.number}
-              name={el.name}
-              assets={el.assets}
-              payments={el.payments}
-              is_active={el.is_active}
-              created_at={el.created_at}
-              updated_at={el.updated_at}
-              accountStat={accountStatus}
-            />
-          ))
-        }
+        {currentItems?.map((el: AccType) => (
+          <AccTable
+            key={el.id}
+            id={el.id}
+            user_id={el.user_id}
+            uuid={el.uuid}
+            broker_id={el.broker_id}
+            status={el.status}
+            number={el.number}
+            name={el.name}
+            assets={el.assets}
+            payments={el.payments}
+            is_active={el.is_active}
+            created_at={el.created_at}
+            updated_at={el.updated_at}
+          />
+        ))}
       </table>
+      <BtnWrap>
+        <ReactPaginate
+          breakLabel="..."
+          previousLabel="< previous"
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={4}
+          pageCount={pageCount}
+          nextLabel="next >"
+        />
+      </BtnWrap>
     </ListWraper>
   );
 }
@@ -96,6 +82,25 @@ const ListWraper = styled.div`
   padding: 30px;
   thead {
     background-color: #e6e6e6;
+  }
+`;
+
+const BtnWrap = styled.div`
+  height: 100px;
+  ul {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  ul li {
+    padding: 0 20px;
+  }
+  ul li.selected {
+    color: #fff;
+    border: 1px solid #4e59c8;
+    background-color: #6875f5;
+    border-radius: 28px;
   }
 `;
 

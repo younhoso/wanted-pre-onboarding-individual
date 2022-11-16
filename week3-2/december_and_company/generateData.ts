@@ -5,6 +5,7 @@ const accountStatus = require('./accountStatus.json')
 
 faker.setLocale('ko')
 
+let acc_id = 1;
 const users = []
 const userSetting = []
 const accounts = []
@@ -50,7 +51,7 @@ for (let i = 1; i < 101; i++) {
     const accountBrokerCode = brokercode.sort(() => 0.5 - Math.random())[0]
     const status = accountStatusCode.sort(() => 0.5 - Math.random())[0]
     const account = {
-      id: j,
+      id: acc_id++,
       user_id: i,
       uuid: faker.datatype.uuid(),
       broker_id: accountBrokerCode,
