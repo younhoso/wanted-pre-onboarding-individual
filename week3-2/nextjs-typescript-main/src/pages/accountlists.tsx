@@ -1,4 +1,5 @@
-import Layout from './_layout';
+import Layout from "./_layout";
+
 
 function accountlist() {
   return <Layout />;

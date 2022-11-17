@@ -42,7 +42,11 @@ api.interceptors.response.use(
 export const apis = {
   signupPost: (data: loginData) => api.post('/users/signup', data),
   loginPost: (data: loginData) => api.post('/login', data),
-  accountsGet: () => api.get(`/accounts`),
+  accountsGet: (page?:number, limit?:number) => {
+    // const query = `_page=${page}&_limit=${limit}`;
+    // const path = page === 0 ? '/accounts' : `/accounts?${query}`;
+    return api.get('/accounts');
+  },
   usersGet: () => api.get('/users'),
   userSettingGet: () => api.get('/userSetting'),
 };

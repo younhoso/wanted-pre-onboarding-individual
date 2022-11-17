@@ -4,8 +4,15 @@ export type initalValu = {
   [key: string]: number;
 };
 
+export type defaultValue = {
+  page: number,
+  limit: number,
+}
+
 function usePaginate<T>({ PAGE_SIZE }: initalValu, allData: T[]) {
   const [itemOffset, setItemOffset] = useState(0);
+  
+
   // 전체 데이터의 길이 + 보여주고자하는 개수
   const endOffset = itemOffset + PAGE_SIZE;
   const currentItems = allData?.slice(itemOffset, endOffset); //전체 데이터의 길이에서 보여주고자하는 개수를 잘라낼수 있습.

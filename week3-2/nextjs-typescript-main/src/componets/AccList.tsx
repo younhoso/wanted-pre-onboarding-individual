@@ -62,6 +62,7 @@ function AccountList({ PAGE_SIZE }: initalValu) {
           />
         ))}
       </table>
+
       <BtnWrap>
         <ReactPaginate
           breakLabel="..."

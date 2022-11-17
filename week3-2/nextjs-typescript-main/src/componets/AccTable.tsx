@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { AccType } from 'src/types';
 import styled from 'styled-components';
 
@@ -52,9 +53,21 @@ function AccTable({
   updated_at,
 }: AccType) {
   const newBrokerDB = Object.entries<string>(brokerDB);
+  const router = useRouter();
+  const handlePathClick = (id: number, title: string) => {
+    router.push(
+      {
+        pathname: `/accountlists/${id}`,
+        query: {
+          title,
+        },
+      },
+      `/accountlists/${id}`
+    );
+  };
 
   return (
-    <tbody>
+    <TbodyWraper>
       <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
         <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
           {name}
@@ -64,7 +77,7 @@ function AccTable({
             (newBrokerEl, idx) => broker_id === newBrokerEl[0] && <div key={idx}> {newBrokerEl[1]} </div>
           )}
         </td>
-        <td className="py-4 px-6">{number}</td>
+        <td className="py-4 px-6 cusor" onClick={() => handlePathClick(id, number)}>{number}</td>
         <td className="py-4 px-6">
           {accountStatus?.map(
             (accountEl, idx) => accountEl.statusNum === status && <div key={idx}> {accountEl.status} </div>
@@ -76,10 +89,14 @@ function AccTable({
         <td className="py-4 px-6">{}</td>
         <td className="py-4 px-6">{created_at}</td>
       </tr>
-    </tbody>
+    </TbodyWraper>
   );
 }
 
-const TableWraper = styled.tbody``;
+const TbodyWraper = styled.tbody`
+  .cusor {
+    cursor: pointer;
+  }
+`;
 
 export default AccTable;
