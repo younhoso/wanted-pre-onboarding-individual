@@ -5,7 +5,6 @@ type loginData = {
 };
 
 const SERVER = {
-  baseURL: 'http://localhost:4000',
   headers: { 'Content-Type': 'application/json; charset=UTF-8' },
   validityState: (status: number) => {
     return status >= 200 && status < 300;
