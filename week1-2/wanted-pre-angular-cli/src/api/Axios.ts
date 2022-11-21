@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { RawAxiosRequestHeaders } from 'axios';
 
 const DEFAULT_CONFIG = {
   baseURL: process.env.REACT_APP_SERVER,
@@ -9,7 +9,8 @@ const authApi = axios.create(DEFAULT_CONFIG);
 
 authApi.interceptors.request.use(
   config => {
-    config.headers.Authorization = `token ${process.env.REACT_APP_GIT_TOKEN}`;
+    const headers = config.headers as RawAxiosRequestHeaders;
+    headers['Authorization'] = `token ${process.env.REACT_APP_GIT_TOKEN}`;
     return config;
   },
   () => ({ message: '런타임 에러가 발생했습니다!' })

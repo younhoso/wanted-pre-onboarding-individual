@@ -16,7 +16,7 @@ function Login() {
     const { name, value } = e.target;
     onChange(name, value);
   };
-  const { mutate: create } = useMutation(apis.signupPost, {
+  const { mutate: create } = useMutation(apis.loginPost, {
     onSuccess: (data) => {
       localStorage.setItem('token', data.data.accessToken);
       router.push('/accountlists');

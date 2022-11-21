@@ -1,8 +1,15 @@
+/* eslint-disable camelcase */
 import authApi from './Axios';
 
 const IssuesAPI = {
-  async getIssues() {
-    const result = await authApi.get('/issues?state=open&sort=comments');
+  async getIssues(sort = 'comments', page = 1, per_page = 10) {
+    const result = await authApi.get('/issues', {
+      params: {
+        sort,
+        page,
+        per_page,
+      },
+    });
     return {
       result,
       errorMsg: {
@@ -10,7 +17,7 @@ const IssuesAPI = {
       },
     };
   },
-  async getIssuesDetail(id) {
+  async getIssuesDetail(id: number) {
     const result = await authApi.get(`/issues/${id}`);
     return {
       result,

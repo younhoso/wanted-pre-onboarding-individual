@@ -46,8 +46,6 @@ function UserTable({
   created_at,
   updated_at,
 }: UsersType) {
-  const router = useRouter();
-  const newBrokerDB = Object.entries<string>(brokerDB);
 
   return (
     <tbody>

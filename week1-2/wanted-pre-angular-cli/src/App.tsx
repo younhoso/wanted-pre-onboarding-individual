@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import IssuesHead from './components/IssuesHead';
 import Router from './Router';
 

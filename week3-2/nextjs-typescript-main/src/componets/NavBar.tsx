@@ -1,10 +1,10 @@
-import { dehydrate, QueryClient, useQuery } from '@tanstack/react-query';
-import { GetServerSideProps } from 'next';
 import Link from 'next/link';
-import { apis } from 'src/api/decemberAxios';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
 function NavBar() {
+  const router = useRouter();
+
   return (
     <NavbarWraper>
       <aside className="navbarWraper" aria-label="Sidebar">
@@ -26,7 +26,7 @@ function NavBar() {
                 </a>
               </Link>
             </li>
-            <li>
+            <li className={`account ${router.pathname === '/accountlists' ? 'on' : 'off'}`}>
               <Link href="/accountlists">
                 <a className="navbar-hover flex items-center p-2 text-base font-normal rounded-lg text-white">
                   <svg
@@ -41,7 +41,7 @@ function NavBar() {
                 </a>
               </Link>
             </li>
-            <li className="user">
+            <li className={`userlist ${router.pathname === '/userlists' ? 'on' : 'off'} user`}>
               <Link href="/userlists">
                 <a className="navbar-hover flex items-center p-2 text-base font-normal rounded-lg text-white">
                   <svg
@@ -101,6 +101,8 @@ const NavbarWraper = styled.div`
     display: flex;
     flex-direction: column;
   }
+  .account.on a{ background-color: #4049a4;}
+  .userlist.on a{ background-color: #4049a4;}
   .user {
     height: 100%;
     flex-grow: 0.9;

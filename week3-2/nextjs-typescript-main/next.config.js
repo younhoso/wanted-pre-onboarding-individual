@@ -3,6 +3,9 @@ const BASE_URL = process.env.BASE_URL;
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  env: {
+    BASE_URL: BASE_URL,
+  },
   swcMinify: true,
   compiler: {
     styledComponents: true,

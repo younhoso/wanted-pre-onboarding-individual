@@ -5,6 +5,7 @@ type loginData = {
 };
 
 const SERVER = {
+  baseURL: process.env.BASE_URL,
   headers: { 'Content-Type': 'application/json; charset=UTF-8' },
   validityState: (status: number) => {
     return status >= 200 && status < 300;
@@ -41,7 +42,7 @@ api.interceptors.response.use(
 export const apis = {
   signupPost: (data: loginData) => api.post('/users/signup', data),
   loginPost: (data: loginData) => api.post('/login', data),
-  accountsGet: (page?:number, limit?:number) => {
+  accountsGet: () => {
     // const query = `_page=${page}&_limit=${limit}`;
     // const path = page === 0 ? '/accounts' : `/accounts?${query}`;
     return api.get('/accounts');

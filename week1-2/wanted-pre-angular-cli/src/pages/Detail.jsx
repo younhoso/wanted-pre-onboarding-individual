@@ -1,20 +1,24 @@
-import React, { useContext, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import IssuesAPI from '../api/IssuesApi';
-import { issuesDispatchContext, issuesStateContext } from '../contexts/ConfigStore';
+// import React, { useContext, useEffect } from 'react';
+// import { useParams } from 'react-router-dom';
+// import IssuesAPI from '../api/IssuesApi';
+// import {  IssuesDispatchContext, IssuesStateContext } from '../contexts/configStore';
 
 function Detail() {
-  const { id } = useParams();
-  const datas = useContext(issuesStateContext);
-  const dispatch = useContext(issuesDispatchContext);
+  // const { id } = useParams();
+  // const datas = useContext(IssuesStateContext);
+  // const dispatch = useContext(IssuesDispatchContext);
 
-  const handleLoade = async () => {
-    const { result } = await IssuesAPI.getIssuesDetail(id);
-    dispatch({ type: 'detailGet', initIssues: result.data });
-  };
+  // const handleLoade = async () => {
+  //   const { result } = await IssuesAPI.getIssuesDetail(id);
+  //   dispatch({ 
+  //     type: 'GET_ISSUES_SUCCESS', 
+  //     data: result.data 
+  //   });
+  // };
 
   useEffect(() => {
     handleLoade();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
