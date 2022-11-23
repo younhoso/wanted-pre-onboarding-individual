@@ -13,7 +13,6 @@ const IssueListWrapper = styled.div`
 
 function IssueList() {
   const issues = useIssuesValue();
-  console.log(issues)
 
   if (issues === null) return null;
 

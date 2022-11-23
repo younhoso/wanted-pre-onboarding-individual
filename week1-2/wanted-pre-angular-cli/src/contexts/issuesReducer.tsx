@@ -1,34 +1,43 @@
-import { AxiosError } from 'axios';
-import { Action, Issue } from "src/types";
+import { Issue } from "src/types";
 
-export interface State {
+export enum IssueActionTypes {
+  GET_ISSUE_LIST_SUCCESS = "GET_ISSUES_LIST_SUCCESS",
+  GET_ISSUE_LIST_LOADING = "GET_ISSUES_LIST_LOADING",
+  GET_ISSUE_LIST_ERROR = "GET_ISSUES_LIST_ERROR",
+
+  GET_ISSUE_DETAIL_SUCCESS = "GET_ISSUES_DETAIL_SUCCESS",
+  GET_ISSUE_DETAIL_LOADING = "GET_ISSUES_DETAIL_LOADING",
+  GET_ISSUE_DETAIL_ERROR = "GET_ISSUES_DETAIL_ERROR",
+};
+
+export interface IssueInitialState {
   isLoading: boolean;
   data: Issue[];
-  error: AxiosError | null;
+  error: boolean;
 }
 
-const GET_ISSUES_TYPE = 'GET_ISSUES';
-const GET_ISSUES_SUCCESS_TYPE = 'GET_ISSUES_SUCCESS';
-const GET_ISSUES_ERROR_TYPE = 'GET_ISSUES_ERROR';
-
-const issuesReducer = (state: State, action: Action) => {
+const issuesReducer = (
+  state: IssueInitialState, 
+  action: { type: IssueActionTypes; data?: Issue[] }
+  ) => {
   switch (action.type) {
-    case GET_ISSUES_TYPE:
+    case IssueActionTypes.GET_ISSUE_LIST_LOADING:
       return {
         ...state,
         isLoading: true,
-        error: null,
+        error: false,
       };
-    case GET_ISSUES_SUCCESS_TYPE:
+    case IssueActionTypes.GET_ISSUE_LIST_SUCCESS:
       return {
+        data: [...state.data, ...action.data as Issue[]],
         isLoading: false,
-        data: [...state.data, ...action.data],
-        error: null,
+        error: false,
       };
-    case GET_ISSUES_ERROR_TYPE:
+    case IssueActionTypes.GET_ISSUE_LIST_ERROR:
       return {
         ...state,
-        error: action.error,
+        isLoading: false,
+        error: true
       };
     default:
       throw new Error('유효하지 않은 타입입니다.');

@@ -1,5 +1,3 @@
-import { AxiosError } from "axios";
-
 export interface IssueResponse {
   id: number;
   number: number;
@@ -25,8 +23,3 @@ export interface Issue {
     profile_url: string;
   };
 }
-
-export type Action =
-  | { type: 'GET_ISSUES'; isLoading?: boolean, error?: AxiosError | null,}
-  | { type: 'GET_ISSUES_SUCCESS'; data: Issue[]; error?: AxiosError | null }
-  | { type: 'GET_ISSUES_ERROR'; error: AxiosError }

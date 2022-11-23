@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { IssueActionTypes } from "../contexts/issuesReducer";
 import IssuesAPI from '../api/IssuesApi';
 import parseIssue from '../utils/parseIssue';
 import { useIssuesDispatch, useIssuesState } from '../hooks/useIssues';
@@ -17,14 +17,14 @@ function IssueLoader() {
   const onIntersect: IntersectionObserverCallback = useCallback(
     async ([entry], observer) => {
       if (entry.isIntersecting) {
-        dispatch({ type: 'GET_ISSUES' });
+        dispatch({ type: IssueActionTypes.GET_ISSUE_LIST_LOADING });
         try {
           const response = await IssuesAPI.getIssues(
             'comments',
             ++page.current
           );
           dispatch({
-            type: 'GET_ISSUES_SUCCESS',
+            type: IssueActionTypes.GET_ISSUE_LIST_SUCCESS,
             data: response.result.data.map(parseIssue),
           });
           if (response.result.data.length < 10) {
@@ -33,8 +33,7 @@ function IssueLoader() {
             observer.observe(entry.target);
           }
         } catch (error) {
-          const axiosError = error as AxiosError;
-          dispatch({ type: 'GET_ISSUES_ERROR', error: axiosError });
+          dispatch({ type: IssueActionTypes.GET_ISSUE_LIST_ERROR });
           navigate('/error');
         }
       }
