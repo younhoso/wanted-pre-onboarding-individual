@@ -2,11 +2,11 @@ import React, { createContext, useReducer } from 'react';
 import { Issue } from 'src/types';
 import issuesReducer, { IssueActionTypes, IssueInitialState } from './issuesReducer';
 
-
 const initialState: IssueInitialState = {
   isLoading: false,
-  data: [],
-  error: false,
+  issueList: [],
+  issueDetail: null,
+  isError: false
 };
 
 interface Props {
@@ -16,7 +16,7 @@ interface Props {
 const IssuesStateContext = createContext<IssueInitialState>(initialState);
 const IssuesDispatchContext = createContext<React.Dispatch<{
   type: IssueActionTypes;
-  data?: Issue[]
+  data?: Issue[] | Issue
 }> | null>(null);
 
 function IssuesContextProvider({ children }: Props) {

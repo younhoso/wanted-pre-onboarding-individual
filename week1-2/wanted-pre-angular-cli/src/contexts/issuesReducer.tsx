@@ -12,32 +12,53 @@ export enum IssueActionTypes {
 
 export interface IssueInitialState {
   isLoading: boolean;
-  data: Issue[];
-  error: boolean;
+  issueList: Issue[];
+  issueDetail: Issue;
+  isError: boolean;
 }
 
 const issuesReducer = (
   state: IssueInitialState, 
-  action: { type: IssueActionTypes; data?: Issue[] }
+  action: { type: IssueActionTypes; data?: Issue[] | Issue}
   ) => {
   switch (action.type) {
     case IssueActionTypes.GET_ISSUE_LIST_LOADING:
       return {
         ...state,
         isLoading: true,
-        error: false,
+        isError: false,
       };
     case IssueActionTypes.GET_ISSUE_LIST_SUCCESS:
       return {
-        data: [...state.data, ...action.data as Issue[]],
+        ...state,
+        issueList: [...state.issueList, ...action.data as Issue[]],
         isLoading: false,
-        error: false,
+        isError: false,
       };
     case IssueActionTypes.GET_ISSUE_LIST_ERROR:
       return {
         ...state,
         isLoading: false,
-        error: true
+        isError: true
+      };
+    case IssueActionTypes.GET_ISSUE_DETAIL_LOADING:
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
+      }
+    case IssueActionTypes.GET_ISSUE_DETAIL_SUCCESS:
+      return {
+        ...state,
+        issueDetail: action.data as Issue,
+        isLoading: false,
+        isError: false,
+      };
+    case IssueActionTypes.GET_ISSUE_DETAIL_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
       };
     default:
       throw new Error('유효하지 않은 타입입니다.');

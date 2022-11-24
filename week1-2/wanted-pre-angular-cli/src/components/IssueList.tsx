@@ -18,7 +18,7 @@ function IssueList() {
 
   return (
     <IssueListWrapper>
-      {issues.map((issue: Issue, index) => (
+      {issues.map((issue: Issue, index: number) => (
         <IssueItem key={issue.id} issue={issue} isAdvertisement={index === 4} />
       ))}
     </IssueListWrapper>
