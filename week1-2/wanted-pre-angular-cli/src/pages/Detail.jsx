@@ -10,15 +10,15 @@ function Detail() {
 
   // const handleLoade = async () => {
   //   const { result } = await IssuesAPI.getIssuesDetail(id);
-  //   dispatch({ 
-  //     type: 'GET_ISSUES_SUCCESS', 
-  //     data: result.data 
+  //   dispatch({
+  //     type: 'GET_ISSUES_SUCCESS',
+  //     data: result.data
   //   });
   // };
 
   useEffect(() => {
     handleLoade();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

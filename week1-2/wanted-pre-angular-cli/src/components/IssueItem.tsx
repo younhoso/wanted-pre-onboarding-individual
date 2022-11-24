@@ -7,7 +7,7 @@ import { Issue } from '../types/index';
 
 interface Props {
   issue: Issue;
-  index?: number;
+	isAdvertisement: boolean;
 }
 
 const Banner = styled.a`
@@ -66,7 +66,7 @@ const IssueItemInner = styled.li`
 const BANNER_IMG_URL =
   'https://image.wanted.co.kr/optimize?src=https%3A%2F%2Fstatic.wanted.co.kr%2Fimages%2Fuserweb%2Flogo_wanted_black.png&w=110&q=100';
 
-function IssueItem({ issue, index }: Props) {
+function IssueItem({ issue, isAdvertisement }: Props) {
   return (
     <>
       <IssueItemInner>
@@ -87,7 +87,7 @@ function IssueItem({ issue, index }: Props) {
         </Link>
         <hr />
       </IssueItemInner>
-      {index === 4 && (
+      {isAdvertisement && (
         <Banner
           href="https://www.wanted.co.kr/"
           target="_blank"

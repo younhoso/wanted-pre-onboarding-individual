@@ -19,7 +19,7 @@ function IssueList() {
   return (
     <IssueListWrapper>
       {issues.map((issue: Issue, index) => (
-        <IssueItem issue={issue} key={issue.id} index={index} />
+        <IssueItem key={issue.id} issue={issue} isAdvertisement={index === 4} />
       ))}
     </IssueListWrapper>
   );
